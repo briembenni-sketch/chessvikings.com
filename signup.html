@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Join ChessVikings — Create Your Account</title>
+<meta name="description" content="Create your ChessVikings account and start mastering bullet chess today.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700&family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --void:          #06080f;
+  --abyss:         #090c18;
+  --deep:          #0d1224;
+  --midnight:      #121830;
+  --steel:         #1a2340;
+  --iron:          #243054;
+  --mist:          #3d4a6e;
+  --fog:           #6b7a9e;
+  --ash:           #a0aac4;
+  --bone:          #d4c9b0;
+  --parchment:     #e8dfc8;
+
+  --gold:          #c9a84c;
+  --gold-bright:   #f0c84a;
+  --gold-dark:     #8a6820;
+  --gold-pale:     rgba(201,168,76,0.07);
+  --crimson:       #c0302a;
+  --blood:         #8b1a1a;
+  --ember:         #e84c0c;
+
+  --aurora-1:      rgba(30,58,126,0.4);
+  --aurora-2:      rgba(120,50,160,0.1);
+  --rune-glow:     rgba(201,168,76,0.55);
+  --crimson-glow:  rgba(192,48,42,0.4);
+
+  --font-logo:     'Cinzel Decorative', serif;
+  --font-head:     'Cinzel', serif;
+  --font-num:      'Bebas Neue', sans-serif;
+  --font-body:     'Outfit', sans-serif;
+
+  --r-sm:   6px;
+  --r-md:   12px;
+  --r-lg:   20px;
+  --r-pill: 100px;
+
+  --glass-bg:      rgba(255,255,255,0.04);
+  --glass-bg-mid:  rgba(255,255,255,0.07);
+  --glass-border:  rgba(201,168,76,0.14);
+  --glass-border-h:rgba(201,168,76,0.35);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--void);
+  color: var(--ash);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* Aurora background */
+.aurora-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 90% 50% at 15% 20%, var(--aurora-1) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 40% at 85% 70%, var(--aurora-2) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 60% at 50% 100%, rgba(139,26,26,0.2) 0%, transparent 50%);
+  animation: aurora-drift 20s ease-in-out infinite alternate;
+}
+@keyframes aurora-drift {
+  0%   { opacity: 0.7; transform: translateY(0) scale(1); }
+  100% { opacity: 1;   transform: translateY(-20px) scale(1.03); }
+}
+
+/* Nav */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 18px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(201,168,76,0.08);
+  background: rgba(6,8,15,0.7);
+  backdrop-filter: blur(20px);
+}
+.nav-logo {
+  font-family: var(--font-logo);
+  font-size: 18px;
+  color: var(--gold);
+  text-shadow: 0 0 22px var(--rune-glow);
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.nav-back {
+  font-family: var(--font-head);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--ash);
+  transition: color 0.2s;
+}
+.nav-back:hover { color: var(--gold); }
+
+/* Main container */
+.auth-wrapper {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 460px;
+  margin: 100px auto 40px;
+  padding: 0 20px;
+}
+
+.auth-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--r-lg);
+  padding: 48px 40px;
+  backdrop-filter: blur(20px);
+  box-shadow:
+    0 0 80px rgba(201,168,76,0.06),
+    0 24px 80px rgba(0,0,0,0.5);
+}
+
+.auth-rune {
+  font-size: 36px;
+  text-align: center;
+  margin-bottom: 8px;
+  opacity: 0.6;
+}
+
+.auth-title {
+  font-family: var(--font-head);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--gold);
+  text-align: center;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow: 0 0 30px var(--rune-glow);
+  margin-bottom: 8px;
+}
+
+.auth-sub {
+  text-align: center;
+  color: var(--fog);
+  font-size: 14px;
+  margin-bottom: 36px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  font-family: var(--font-head);
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--ash);
+  margin-bottom: 8px;
+}
+
+.form-input {
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: var(--r-sm);
+  padding: 14px 18px;
+  color: var(--bone);
+  font-family: var(--font-body);
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+}
+.form-input::placeholder { color: var(--mist); }
+.form-input:focus {
+  border-color: rgba(201,168,76,0.5);
+  background: rgba(255,255,255,0.07);
+  box-shadow: 0 0 0 3px rgba(201,168,76,0.08);
+}
+
+.btn-submit {
+  width: 100%;
+  font-family: var(--font-head);
+  font-size: 13px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--void);
+  background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 45%, var(--gold-bright) 60%, var(--gold) 100%);
+  background-size: 200% 100%;
+  padding: 16px 26px;
+  border-radius: var(--r-sm);
+  border: none;
+  cursor: pointer;
+  transition: background-position 0.4s, box-shadow 0.3s, transform 0.2s;
+  box-shadow: 0 4px 20px rgba(201,168,76,0.35);
+  position: relative;
+  overflow: hidden;
+  margin-top: 8px;
+}
+.btn-submit::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.22) 0%, transparent 50%);
+  pointer-events: none;
+}
+.btn-submit:hover {
+  background-position: right center;
+  box-shadow: 0 6px 36px rgba(201,168,76,0.65), 0 0 60px rgba(201,168,76,0.15);
+  transform: translateY(-1px);
+}
+.btn-submit:active { transform: translateY(0); }
+.btn-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 28px 0;
+  color: var(--mist);
+  font-size: 12px;
+  font-family: var(--font-head);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.divider::before, .divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(201,168,76,0.15);
+}
+
+.auth-alt {
+  text-align: center;
+  color: var(--fog);
+  font-size: 14px;
+}
+.auth-alt a {
+  color: var(--gold);
+  font-weight: 600;
+  transition: text-shadow 0.2s;
+}
+.auth-alt a:hover { text-shadow: 0 0 12px var(--rune-glow); }
+
+/* Alert messages */
+.alert {
+  border-radius: var(--r-sm);
+  padding: 14px 18px;
+  font-size: 14px;
+  margin-bottom: 20px;
+  display: none;
+}
+.alert.show { display: block; }
+.alert-error {
+  background: rgba(192,48,42,0.12);
+  border: 1px solid rgba(192,48,42,0.3);
+  color: #e87070;
+}
+.alert-success {
+  background: rgba(34,197,94,0.1);
+  border: 1px solid rgba(34,197,94,0.25);
+  color: #6ee08c;
+}
+
+/* Benefits list */
+.benefits {
+  margin-top: 32px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(201,168,76,0.1);
+}
+.benefits-title {
+  font-family: var(--font-head);
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--fog);
+  text-align: center;
+  margin-bottom: 16px;
+}
+.benefit-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--ash);
+  margin-bottom: 8px;
+}
+.benefit-icon { color: var(--gold); font-size: 14px; flex-shrink: 0; }
+
+/* Spinner */
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(6,8,15,0.4);
+  border-top-color: var(--void);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@media (max-width: 500px) {
+  .auth-card { padding: 36px 24px; }
+  .nav { padding: 16px 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="aurora-layer"></div>
+
+<nav class="nav">
+  <a href="index.html" class="nav-logo">⚔ ChessVikings</a>
+  <a href="index.html" class="nav-back">← Back to Home</a>
+</nav>
+
+<div class="auth-wrapper">
+  <div class="auth-card">
+    <div class="auth-rune">ᚠ</div>
+    <h1 class="auth-title">Join the Warriors</h1>
+    <p class="auth-sub">Create your account and begin your journey to chess mastery</p>
+
+    <div class="alert alert-error" id="errorMsg"></div>
+    <div class="alert alert-success" id="successMsg"></div>
+
+    <form id="signupForm">
+      <div class="form-group">
+        <label class="form-label" for="email">Email Address</label>
+        <input
+          class="form-input"
+          type="email"
+          id="email"
+          name="email"
+          placeholder="warrior@example.com"
+          required
+          autocomplete="email"
+        >
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="password">Password</label>
+        <input
+          class="form-input"
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Min. 8 characters"
+          required
+          minlength="8"
+          autocomplete="new-password"
+        >
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="confirmPassword">Confirm Password</label>
+        <input
+          class="form-input"
+          type="password"
+          id="confirmPassword"
+          name="confirmPassword"
+          placeholder="Repeat your password"
+          required
+          autocomplete="new-password"
+        >
+      </div>
+
+      <button type="submit" class="btn-submit" id="submitBtn">
+        ⚔ &nbsp;Create My Account
+      </button>
+    </form>
+
+    <div class="divider">or</div>
+
+    <div class="auth-alt">
+      Already a warrior? <a href="login.html">Sign in here</a>
+    </div>
+
+    <div class="benefits">
+      <div class="benefits-title">What you get</div>
+      <div class="benefit-item"><span class="benefit-icon">⚔</span> All 8 video modules (12+ hours)</div>
+      <div class="benefit-item"><span class="benefit-icon">⚔</span> 200+ tactical puzzles</div>
+      <div class="benefit-item"><span class="benefit-icon">⚔</span> Lifetime access, no subscription</div>
+      <div class="benefit-item"><span class="benefit-icon">⚔</span> Private Warriors community</div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = 'https://carjkdzmfwnutgakrahy.supabase.co';
+const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+
+const { createClient } = supabase;
+const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// Redirect if already logged in
+sb.auth.getSession().then(({ data: { session } }) => {
+  if (session) window.location.href = 'dashboard.html';
+});
+
+const form = document.getElementById('signupForm');
+const submitBtn = document.getElementById('submitBtn');
+const errorMsg = document.getElementById('errorMsg');
+const successMsg = document.getElementById('successMsg');
+
+function showError(msg) {
+  errorMsg.textContent = msg;
+  errorMsg.classList.add('show');
+  successMsg.classList.remove('show');
+}
+
+function showSuccess(msg) {
+  successMsg.textContent = msg;
+  successMsg.classList.add('show');
+  errorMsg.classList.remove('show');
+}
+
+function clearAlerts() {
+  errorMsg.classList.remove('show');
+  successMsg.classList.remove('show');
+}
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  clearAlerts();
+
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+  const confirmPassword = document.getElementById('confirmPassword').value;
+
+  if (password !== confirmPassword) {
+    showError('Passwords do not match. Please try again.');
+    return;
+  }
+
+  if (password.length < 8) {
+    showError('Password must be at least 8 characters long.');
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = '<span class="spinner"></span>Creating account...';
+
+  try {
+    const { data, error } = await sb.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: window.location.origin + '/dashboard.html'
+      }
+    });
+
+    if (error) throw error;
+
+    // Create profile record
+    if (data.user) {
+      await sb.from('profiles').upsert({
+        id: data.user.id,
+        email: data.user.email,
+        has_paid: false,
+        created_at: new Date().toISOString()
+      });
+    }
+
+    showSuccess('⚔ Account created! Check your email to confirm, then sign in.');
+    form.reset();
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = '⚔ &nbsp;Create My Account';
+
+    // If session exists immediately (email confirmation disabled), redirect
+    if (data.session) {
+      setTimeout(() => { window.location.href = 'dashboard.html'; }, 1500);
+    }
+
+  } catch (err) {
+    const msg = err.message || 'Signup failed. Please try again.';
+    showError(msg.includes('already registered')
+      ? 'This email is already registered. <a href="login.html" style="color:var(--gold)">Sign in instead?</a>'
+      : msg
+    );
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = '⚔ &nbsp;Create My Account';
+  }
+});
+</script>
+</body>
+</html>
