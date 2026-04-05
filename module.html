@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module — ChessVikings</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700&family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --void:          #06080f;
+  --abyss:         #090c18;
+  --deep:          #0d1224;
+  --midnight:      #121830;
+  --steel:         #1a2340;
+  --iron:          #243054;
+  --mist:          #7a88b0;
+  --fog:           #9aa8c8;
+  --ash:           #a0aac4;
+  --bone:          #d4c9b0;
+  --parchment:     #e8dfc8;
+
+  --gold:          #c9a84c;
+  --gold-bright:   #f0c84a;
+  --gold-dark:     #8a6820;
+  --gold-pale:     rgba(201,168,76,0.07);
+  --crimson:       #c0302a;
+  --blood:         #8b1a1a;
+  --ember:         #e84c0c;
+
+  --aurora-1:      rgba(30,58,126,0.4);
+  --aurora-2:      rgba(120,50,160,0.1);
+  --rune-glow:     rgba(201,168,76,0.55);
+  --crimson-glow:  rgba(192,48,42,0.4);
+
+  --font-logo:     'Cinzel Decorative', serif;
+  --font-head:     'Cinzel', serif;
+  --font-num:      'Bebas Neue', sans-serif;
+  --font-body:     'Outfit', sans-serif;
+
+  --r-sm:   6px;
+  --r-md:   12px;
+  --r-lg:   20px;
+
+  --glass-bg:      rgba(255,255,255,0.04);
+  --glass-bg-mid:  rgba(255,255,255,0.07);
+  --glass-border:  rgba(201,168,76,0.14);
+  --glass-border-h:rgba(201,168,76,0.35);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--void);
+  color: var(--ash);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* Loading screen */
+#loadingScreen {
+  position: fixed;
+  inset: 0;
+  background: var(--void);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+#loadingScreen .load-rune {
+  font-size: 48px;
+  animation: pulse-gold 1.5s ease-in-out infinite;
+}
+@keyframes pulse-gold {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+#loadingScreen .load-text {
+  font-family: var(--font-head);
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--fog);
+}
+
+/* Aurora background */
+.aurora-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 90% 50% at 15% 20%, var(--aurora-1) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 40% at 85% 70%, var(--aurora-2) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 60% at 50% 100%, rgba(139,26,26,0.2) 0%, transparent 50%);
+  animation: aurora-drift 20s ease-in-out infinite alternate;
+}
+@keyframes aurora-drift {
+  0%   { opacity: 0.7; transform: translateY(0) scale(1); }
+  100% { opacity: 1;   transform: translateY(-20px) scale(1.03); }
+}
+
+/* Nav */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 16px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(201,168,76,0.08);
+  background: rgba(6,8,15,0.85);
+  backdrop-filter: blur(20px);
+}
+.nav-logo {
+  font-family: var(--font-logo);
+  font-size: 18px;
+  color: var(--gold);
+  text-shadow: 0 0 22px var(--rune-glow);
+  letter-spacing: 0.5px;
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.btn-nav {
+  font-family: var(--font-head);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--ash);
+  border: 1px solid rgba(201,168,76,0.2);
+  padding: 8px 18px;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  background: none;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  display: inline-block;
+}
+.btn-nav:hover {
+  color: var(--gold);
+  border-color: var(--gold);
+  background: var(--gold-pale);
+}
+
+/* Page layout */
+.module-page {
+  position: relative;
+  z-index: 10;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 52px 40px 80px;
+}
+
+/* Module header */
+.module-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.module-rune-big {
+  font-size: 44px;
+  line-height: 1;
+  opacity: 0.8;
+}
+.module-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.module-num-label {
+  font-family: var(--font-head);
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.8;
+}
+.module-title {
+  font-family: var(--font-head);
+  font-size: clamp(22px, 3.5vw, 34px);
+  font-weight: 900;
+  color: var(--parchment);
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+}
+.module-description {
+  color: var(--fog);
+  font-size: 15px;
+  max-width: 680px;
+  margin-bottom: 36px;
+  line-height: 1.7;
+}
+
+/* Completion badge */
+.completion-badge {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  background: rgba(201,168,76,0.1);
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: var(--r-sm);
+  padding: 10px 18px;
+  font-family: var(--font-head);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+  width: fit-content;
+}
+.completion-badge.show { display: flex; }
+
+/* Video container */
+.video-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 */
+  background: var(--abyss);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+.video-container iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Progress section */
+.progress-section {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--r-md);
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+.progress-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.progress-label {
+  font-family: var(--font-head);
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--fog);
+}
+.progress-pct {
+  font-family: var(--font-num);
+  font-size: 22px;
+  color: var(--gold);
+  line-height: 1;
+}
+.progress-bar-track {
+  height: 6px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-bright));
+  border-radius: 999px;
+  transition: width 0.8s ease;
+  width: 0%;
+}
+.progress-note {
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--mist);
+}
+
+/* Action buttons */
+.action-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 48px;
+  flex-wrap: wrap;
+}
+.btn-complete {
+  font-family: var(--font-head);
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--void);
+  background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 45%, var(--gold-bright) 60%, var(--gold) 100%);
+  background-size: 200% 100%;
+  padding: 14px 32px;
+  border-radius: var(--r-sm);
+  border: none;
+  cursor: pointer;
+  transition: background-position 0.4s, box-shadow 0.3s, transform 0.2s, opacity 0.3s;
+  box-shadow: 0 4px 20px rgba(201,168,76,0.35);
+  position: relative;
+  overflow: hidden;
+}
+.btn-complete::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.22) 0%, transparent 50%);
+  pointer-events: none;
+}
+.btn-complete:hover:not(:disabled) {
+  background-position: right center;
+  box-shadow: 0 6px 36px rgba(201,168,76,0.65);
+  transform: translateY(-2px);
+}
+.btn-complete:disabled {
+  opacity: 0.5;
+  cursor: default;
+  transform: none;
+  box-shadow: none;
+}
+.btn-complete.done {
+  background: rgba(201,168,76,0.15);
+  color: var(--gold);
+  border: 1px solid rgba(201,168,76,0.3);
+  box-shadow: none;
+  cursor: default;
+}
+.btn-complete.done::before { display: none; }
+
+/* Module navigation */
+.module-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--glass-border);
+  padding-top: 36px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.btn-back {
+  font-family: var(--font-head);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--fog);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 12px 24px;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  background: none;
+  transition: color 0.2s, border-color 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-back:hover {
+  color: var(--bone);
+  border-color: rgba(255,255,255,0.25);
+}
+.btn-next {
+  font-family: var(--font-head);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid rgba(201,168,76,0.3);
+  padding: 12px 28px;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  background: var(--gold-pale);
+  transition: color 0.2s, border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-next:hover {
+  color: var(--gold-bright);
+  border-color: rgba(201,168,76,0.6);
+  background: rgba(201,168,76,0.12);
+  box-shadow: 0 4px 20px rgba(201,168,76,0.2);
+}
+.btn-next.hidden { visibility: hidden; }
+
+@media (max-width: 768px) {
+  .nav { padding: 16px 20px; }
+  .module-page { padding: 36px 20px 60px; }
+  .module-nav { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<!-- Loading screen -->
+<div id="loadingScreen">
+  <div class="load-rune">⚔</div>
+  <div class="load-text">Preparing Your Battle Plan...</div>
+</div>
+
+<div class="aurora-layer"></div>
+
+<nav class="nav">
+  <a href="index.html" class="nav-logo">⚔ ChessVikings</a>
+  <div class="nav-right">
+    <a href="dashboard.html" class="btn-nav">← Warriors Hall</a>
+    <button class="btn-nav" id="logoutBtn">Sign Out</button>
+  </div>
+</nav>
+
+<main class="module-page">
+
+  <!-- Module header -->
+  <div class="module-eyebrow">
+    <span class="module-rune-big" id="moduleRune">ᚠ</span>
+    <div class="module-meta">
+      <div class="module-num-label" id="moduleNumLabel">Module I</div>
+      <div class="module-title" id="moduleTitle">Loading...</div>
+    </div>
+  </div>
+
+  <p class="module-description" id="moduleDescription"></p>
+
+  <!-- Completed badge -->
+  <div class="completion-badge" id="completionBadge">
+    ✦ Module Completed
+  </div>
+
+  <!-- YouTube video embed -->
+  <div class="video-container">
+    <div id="ytPlayer"></div>
+  </div>
+
+  <!-- Progress bar -->
+  <div class="progress-section">
+    <div class="progress-label-row">
+      <span class="progress-label">Video Progress</span>
+      <span class="progress-pct" id="progressPct">0%</span>
+    </div>
+    <div class="progress-bar-track">
+      <div class="progress-bar-fill" id="progressBarFill"></div>
+    </div>
+    <div class="progress-note" id="progressNote">
+      Complete 90% of the video to auto-mark this module as done.
+    </div>
+  </div>
+
+  <!-- Action buttons -->
+  <div class="action-row">
+    <button class="btn-complete" id="btnComplete">Mark as Complete</button>
+  </div>
+
+  <!-- Module navigation -->
+  <div class="module-nav">
+    <a href="dashboard.html" class="btn-back">← Back to Dashboard</a>
+    <a href="#" class="btn-next" id="btnNextModule">Next Module →</a>
+  </div>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// ── Config ────────────────────────────────────────────────────────────────────
+const SUPABASE_URL     = 'https://carjkdzmfwnutgakrahy.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_kPiuEWUfQzKcoVxqNl50jQ_GlfZskvW';
+
+const { createClient } = supabase;
+const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// ── Module data ───────────────────────────────────────────────────────────────
+const MODULES = {
+  1: {
+    rune: 'ᚠ',
+    name: 'The Odin Opening',
+    desc: 'All-seeing, all-knowing. Master the openings that give you immediate initiative and keep opponents on the back foot from move one.',
+    duration: '~90 min',
+    videoId: 'YOUR_YOUTUBE_VIDEO_ID',
+  },
+  2: {
+    rune: 'ᚢ',
+    name: "Loki's Traps",
+    desc: 'The trickster wins without honor — and in bullet chess, that\'s a compliment. Set traps your opponents fall into on autopilot, every single game.',
+    duration: '~75 min',
+    videoId: 'YOUR_YOUTUBE_VIDEO_ID',
+  },
+  3: {
+    rune: 'ᚦ',
+    name: "Thor's Hammer — Tactics",
+    desc: 'Smite with pattern recognition. 200+ tactical motifs drilled until they become pure reflex — the thunderbolt that ends games in one blow.',
+    duration: '~120 min',
+    videoId: 'YOUR_YOUTUBE_VIDEO_ID',
+  },
+  4: {
+    rune: 'ᚨ',
+    name: 'The Longship — Positional Speed',
+    desc: 'Navigate any position like a Viking longship cuts through the sea — with confidence, direction, and devastating speed. No thinking required.',
+    duration: '~100 min',
+    videoId: 'YOUR_YOUTUBE_VIDEO_ID',
+  },
+  5: {
+    rune: 'ᚱ',
+    name: "Freya's Clock — Time Management",
+    desc: 'Time is sacred. Learn the rhythms of increment play, when to spend and when to blitz — the goddess of timing watches your every second.',
+    duration: '~80 min',
+    videoId: 'YOUR_YOUTUBE_VIDEO_ID',
+  },
+  6: {
+    rune: 'ᚲ',
+    name: 'Valkyrie Endgames',
+    desc: 'The battlefield is nearly cleared. Master the automatic techniques that decide who walks to Valhalla and who falls.',
+    duration: '~95 min',
+    videoId: 'YOUR_YOUTUBE_VIDEO_ID',
+  },
+  7: {
+    rune: 'ᚷ',
+    name: 'Berserker Mode — Flagging',
+    desc: 'When all else fails, go berserk. Advanced techniques for stealing wins on the clock — the dark art that separates legends from amateurs.',
+    duration: '~85 min',
+    videoId: 'YOUR_YOUTUBE_VIDEO_ID',
+  },
+  8: {
+    rune: 'ᚹ',
+    name: 'Ragnarök — The Final Battle',
+    desc: 'Everything ends here. Master psychological warfare of must-win positions, perfect tilt control, and the mindset of a warrior who has nothing left to lose.',
+    duration: '~110 min',
+    videoId: 'YOUR_YOUTUBE_VIDEO_ID',
+  },
+};
+
+// ── State ─────────────────────────────────────────────────────────────────────
+let moduleNum   = null;
+let userId      = null;
+let ytPlayer    = null;
+let watchedPct  = 0;
+let isCompleted = false;
+let progressInterval = null;
+
+// ── DOM refs ──────────────────────────────────────────────────────────────────
+const loadingScreen   = document.getElementById('loadingScreen');
+const moduleRune      = document.getElementById('moduleRune');
+const moduleNumLabel  = document.getElementById('moduleNumLabel');
+const moduleTitleEl   = document.getElementById('moduleTitle');
+const moduleDescEl    = document.getElementById('moduleDescription');
+const completionBadge = document.getElementById('completionBadge');
+const progressPct     = document.getElementById('progressPct');
+const progressBarFill = document.getElementById('progressBarFill');
+const progressNote    = document.getElementById('progressNote');
+const btnComplete     = document.getElementById('btnComplete');
+const btnNextModule   = document.getElementById('btnNextModule');
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+function getModuleNumFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const n = parseInt(params.get('n'), 10);
+  return (n >= 1 && n <= 8) ? n : null;
+}
+
+function setCompletedUI() {
+  isCompleted = true;
+  completionBadge.classList.add('show');
+  btnComplete.textContent = '✦ Completed';
+  btnComplete.classList.add('done');
+  btnComplete.disabled = true;
+  progressNote.textContent = 'You have completed this module. Well done, Warrior.';
+}
+
+function updateProgressUI(pct) {
+  const clamped = Math.min(100, Math.max(0, Math.round(pct)));
+  progressPct.textContent = clamped + '%';
+  progressBarFill.style.width = clamped + '%';
+}
+
+// ── Supabase: load progress ───────────────────────────────────────────────────
+async function loadProgress() {
+  try {
+    const { data, error } = await sb
+      .from('module_progress')
+      .select('completed, watched_percent')
+      .eq('user_id', userId)
+      .eq('module_number', moduleNum)
+      .maybeSingle();
+
+    if (error) throw error;
+
+    if (data) {
+      watchedPct = data.watched_percent || 0;
+      updateProgressUI(watchedPct);
+      if (data.completed) setCompletedUI();
+    }
+  } catch (err) {
+    console.warn('Could not load progress:', err.message);
+  }
+}
+
+// ── Supabase: save progress ───────────────────────────────────────────────────
+async function saveProgress(pct, completed) {
+  try {
+    await sb.from('module_progress').upsert({
+      user_id: userId,
+      module_number: moduleNum,
+      watched_percent: Math.round(pct),
+      completed: completed,
+    }, { onConflict: 'user_id,module_number' });
+  } catch (err) {
+    console.warn('Could not save progress:', err.message);
+  }
+}
+
+// ── YouTube IFrame API ────────────────────────────────────────────────────────
+window.onYouTubeIframeAPIReady = function () {
+  const mod = MODULES[moduleNum];
+  ytPlayer = new YT.Player('ytPlayer', {
+    videoId: mod.videoId,
+    playerVars: {
+      rel: 0,
+      modestbranding: 1,
+      color: 'white',
+    },
+    events: {
+      onReady: onPlayerReady,
+      onStateChange: onPlayerStateChange,
+    },
+  });
+};
+
+function onPlayerReady() {
+  // Restore position to last-watched position
+  const resumeAt = Math.floor((watchedPct / 100) * (ytPlayer.getDuration() || 0));
+  if (resumeAt > 10) ytPlayer.seekTo(resumeAt, true);
+}
+
+function onPlayerStateChange(event) {
+  if (event.data === YT.PlayerState.PLAYING) {
+    startProgressTracking();
+  } else {
+    stopProgressTracking();
+  }
+}
+
+function startProgressTracking() {
+  if (progressInterval) return;
+  progressInterval = setInterval(async () => {
+    if (!ytPlayer || typeof ytPlayer.getCurrentTime !== 'function') return;
+    const current  = ytPlayer.getCurrentTime();
+    const duration = ytPlayer.getDuration();
+    if (!duration) return;
+
+    const pct = (current / duration) * 100;
+    if (pct > watchedPct) {
+      watchedPct = pct;
+      updateProgressUI(watchedPct);
+    }
+
+    // Auto-complete at 90%
+    if (!isCompleted && watchedPct >= 90) {
+      setCompletedUI();
+      await saveProgress(watchedPct, true);
+    } else if (!isCompleted) {
+      // Throttle DB writes to every ~10s
+      if (Math.round(pct) % 10 === 0 || pct > 85) {
+        await saveProgress(watchedPct, false);
+      }
+    }
+  }, 2000);
+}
+
+function stopProgressTracking() {
+  if (progressInterval) {
+    clearInterval(progressInterval);
+    progressInterval = null;
+    // Save current position on pause/stop
+    if (!isCompleted) saveProgress(watchedPct, false);
+  }
+}
+
+// ── Manual complete ───────────────────────────────────────────────────────────
+btnComplete.addEventListener('click', async () => {
+  if (isCompleted) return;
+  setCompletedUI();
+  await saveProgress(watchedPct, true);
+});
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+async function init() {
+  // Parse module number
+  moduleNum = getModuleNumFromUrl();
+  if (!moduleNum) {
+    window.location.href = 'dashboard.html';
+    return;
+  }
+
+  // Auth check
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) {
+    window.location.href = 'login.html';
+    return;
+  }
+  userId = session.user.id;
+
+  // Check payment for modules 2–8
+  if (moduleNum > 1) {
+    try {
+      const { data: profile } = await sb
+        .from('profiles')
+        .select('has_paid')
+        .eq('id', userId)
+        .single();
+      if (!profile || !profile.has_paid) {
+        window.location.href = 'dashboard.html';
+        return;
+      }
+    } catch (err) {
+      console.warn('Profile fetch failed:', err.message);
+    }
+  }
+
+  // Populate module metadata
+  const mod = MODULES[moduleNum];
+  document.title = `${mod.name} — ChessVikings`;
+  moduleRune.textContent = mod.rune;
+  moduleNumLabel.textContent = 'Module ' + toRoman(moduleNum);
+  moduleTitleEl.textContent = mod.name;
+  moduleDescEl.textContent = mod.desc;
+
+  // Next module button
+  if (moduleNum < 8) {
+    btnNextModule.href = `module-${moduleNum + 1}.html`;
+    btnNextModule.textContent = `Module ${toRoman(moduleNum + 1)} →`;
+  } else {
+    btnNextModule.classList.add('hidden');
+  }
+
+  // Load progress from Supabase
+  await loadProgress();
+
+  // Load YouTube IFrame API
+  const tag = document.createElement('script');
+  tag.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(tag);
+
+  // Hide loading screen
+  loadingScreen.style.display = 'none';
+}
+
+function toRoman(n) {
+  const map = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
+  return map[n] || String(n);
+}
+
+// ── Logout ─────────────────────────────────────────────────────────────────────
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+  await sb.auth.signOut();
+  window.location.href = 'index.html';
+});
+
+init();
+</script>
+</body>
+</html>

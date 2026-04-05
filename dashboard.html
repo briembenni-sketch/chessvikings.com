@@ -471,6 +471,37 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: 1px;
 }
 
+/* Module progress bar inside card */
+.module-progress-bar {
+  margin-top: 14px;
+  height: 3px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.module-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold));
+  border-radius: 999px;
+  transition: width 0.6s ease;
+  width: 0%;
+}
+
+/* Completed checkmark overlay on module card */
+.module-card.completed {
+  border-color: rgba(201,168,76,0.3);
+}
+.module-card.completed::after {
+  content: '✦';
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 18px;
+  color: var(--gold);
+  text-shadow: 0 0 12px var(--rune-glow);
+  line-height: 1;
+}
+
 @media (max-width: 768px) {
   .nav { padding: 16px 20px; }
   .dashboard-content { padding: 36px 20px 60px; }
@@ -551,6 +582,7 @@ a { color: inherit; text-decoration: none; }
         <span class="module-duration">~90 min</span>
         <span class="module-action">Start →</span>
       </div>
+      <div class="module-progress-bar"><div class="module-progress-fill" id="prog-1"></div></div>
     </div>
 
     <div class="module-card" data-module="2">
@@ -565,6 +597,7 @@ a { color: inherit; text-decoration: none; }
         <span class="module-duration">~75 min</span>
         <span class="module-action">Start →</span>
       </div>
+      <div class="module-progress-bar"><div class="module-progress-fill" id="prog-2"></div></div>
     </div>
 
     <div class="module-card" data-module="3">
@@ -579,6 +612,7 @@ a { color: inherit; text-decoration: none; }
         <span class="module-duration">~120 min</span>
         <span class="module-action">Start →</span>
       </div>
+      <div class="module-progress-bar"><div class="module-progress-fill" id="prog-3"></div></div>
     </div>
 
     <div class="module-card" data-module="4">
@@ -593,6 +627,7 @@ a { color: inherit; text-decoration: none; }
         <span class="module-duration">~100 min</span>
         <span class="module-action">Start →</span>
       </div>
+      <div class="module-progress-bar"><div class="module-progress-fill" id="prog-4"></div></div>
     </div>
 
     <div class="module-card" data-module="5">
@@ -607,6 +642,7 @@ a { color: inherit; text-decoration: none; }
         <span class="module-duration">~80 min</span>
         <span class="module-action">Start →</span>
       </div>
+      <div class="module-progress-bar"><div class="module-progress-fill" id="prog-5"></div></div>
     </div>
 
     <div class="module-card" data-module="6">
@@ -621,6 +657,7 @@ a { color: inherit; text-decoration: none; }
         <span class="module-duration">~95 min</span>
         <span class="module-action">Start →</span>
       </div>
+      <div class="module-progress-bar"><div class="module-progress-fill" id="prog-6"></div></div>
     </div>
 
     <div class="module-card" data-module="7">
@@ -635,6 +672,7 @@ a { color: inherit; text-decoration: none; }
         <span class="module-duration">~85 min</span>
         <span class="module-action">Start →</span>
       </div>
+      <div class="module-progress-bar"><div class="module-progress-fill" id="prog-7"></div></div>
     </div>
 
     <div class="module-card" data-module="8">
@@ -649,6 +687,7 @@ a { color: inherit; text-decoration: none; }
         <span class="module-duration">~110 min</span>
         <span class="module-action">Start →</span>
       </div>
+      <div class="module-progress-bar"><div class="module-progress-fill" id="prog-8"></div></div>
     </div>
 
   </div>
@@ -728,6 +767,40 @@ async function initDashboard() {
     });
   }
 
+  // Load module progress from Supabase
+  try {
+    const { data: progressRows } = await sb
+      .from('module_progress')
+      .select('module_number, completed, watched_percent')
+      .eq('user_id', user.id);
+
+    let completedCount = 0;
+
+    if (progressRows && progressRows.length > 0) {
+      progressRows.forEach(row => {
+        const n = row.module_number;
+        const card = modulesGrid.querySelector(`.module-card[data-module="${n}"]`);
+        const fill = document.getElementById(`prog-${n}`);
+
+        if (row.completed) {
+          completedCount++;
+          if (card) card.classList.add('completed');
+          if (fill) fill.style.width = '100%';
+        } else if (row.watched_percent > 0) {
+          if (fill) fill.style.width = row.watched_percent + '%';
+        }
+      });
+    }
+
+    // Update stats bar
+    const statCards = document.querySelectorAll('.stat-card');
+    if (statCards[0]) {
+      statCards[0].querySelector('.stat-num').textContent = completedCount;
+    }
+  } catch (err) {
+    console.warn('Could not load module progress:', err.message);
+  }
+
   // Hide loading screen
   loadingScreen.style.display = 'none';
 }
@@ -738,13 +811,12 @@ document.getElementById('logoutBtn').addEventListener('click', async () => {
   window.location.href = 'index.html';
 });
 
-// Module card clicks (placeholder — will link to actual lesson pages)
+// Module card clicks — navigate to module page
 modulesGrid.addEventListener('click', (e) => {
   const card = e.target.closest('.module-card');
   if (!card || card.classList.contains('locked')) return;
   const moduleNum = card.dataset.module;
-  // Future: window.location.href = `module-${moduleNum}.html`;
-  alert(`Module ${moduleNum} content coming soon! Check back after launch.`);
+  window.location.href = `module-${moduleNum}.html`;
 });
 
 initDashboard();
