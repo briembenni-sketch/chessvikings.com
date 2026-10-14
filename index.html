@@ -13,30 +13,33 @@
    CHESSVIKINGS 2.0 — DESIGN TOKENS
    ============================================================ */
 :root {
-  --void:          #06080f;
-  --abyss:         #090c18;
-  --deep:          #0d1224;
-  --midnight:      #121830;
-  --steel:         #1a2340;
-  --iron:          #243054;
-  --mist:          #3d4a6e;
-  --fog:           #6b7a9e;
-  --ash:           #a0aac4;
-  --bone:          #d4c9b0;
-  --parchment:     #e8dfc8;
+  /* Palette taken from the Viking logo: navy outline, royal blue horns, white helmet */
+  --void:          #050e24;
+  --abyss:         #081633;
+  --deep:          #0b1d45;
+  --midnight:      #0f2556;
+  --steel:         #163068;
+  --iron:          #2a4580;
+  --mist:          #5a73a8;
+  --fog:           #8ea2cc;
+  --ash:           #c3d0ea;
+  --bone:          #e3eaf8;
+  --parchment:     #ffffff;
 
-  --gold:          #c9a84c;
-  --gold-bright:   #f0c84a;
-  --gold-dark:     #8a6820;
-  --gold-pale:     rgba(201,168,76,0.07);
-  --crimson:       #c0302a;
-  --blood:         #8b1a1a;
-  --ember:         #e84c0c;
+  /* the "gold" accent tokens now carry the logo's royal blue */
+  --gold:          #4d8cff;
+  --gold-bright:   #6b9bff;
+  --gold-dark:     #0047c7;
+  --gold-pale:     rgba(77,140,255,0.08);
+  --crimson:       #6b9bff;
+  --blood:         #0047c7;
+  --ember:         #d6e4ff;
+  --on-accent:     #ffffff;
 
-  --aurora-1:      rgba(30,58,126,0.4);
-  --aurora-2:      rgba(120,50,160,0.1);
-  --rune-glow:     rgba(201,168,76,0.55);
-  --crimson-glow:  rgba(192,48,42,0.4);
+  --aurora-1:      rgba(0,71,199,0.35);
+  --aurora-2:      rgba(120,170,255,0.12);
+  --rune-glow:     rgba(77,140,255,0.6);
+  --crimson-glow:  rgba(30,86,214,0.4);
 
   --font-logo:     'Cinzel Decorative', serif;
   --font-head:     'Cinzel', serif;
@@ -50,8 +53,8 @@
 
   --glass-bg:      rgba(255,255,255,0.04);
   --glass-bg-mid:  rgba(255,255,255,0.07);
-  --glass-border:  rgba(201,168,76,0.14);
-  --glass-border-h:rgba(201,168,76,0.35);
+  --glass-border:  rgba(77,140,255,0.14);
+  --glass-border-h:rgba(77,140,255,0.35);
 }
 
 /* ============================================================
@@ -83,7 +86,7 @@ a { color: inherit; text-decoration: none; }
   background:
     radial-gradient(ellipse 90% 50% at 15% 20%, var(--aurora-1) 0%, transparent 55%),
     radial-gradient(ellipse 60% 40% at 85% 70%, var(--aurora-2) 0%, transparent 55%),
-    radial-gradient(ellipse 70% 60% at 50% 100%, rgba(139,26,26,0.2) 0%, transparent 50%);
+    radial-gradient(ellipse 70% 60% at 50% 100%, rgba(14,56,160,0.2) 0%, transparent 50%);
   animation: aurora-drift 20s ease-in-out infinite alternate;
 }
 
@@ -104,19 +107,19 @@ a { color: inherit; text-decoration: none; }
 
 .ember {
   position: absolute;
-  bottom: -10px;
+  top: -10px;
   border-radius: 50%;
-  background: radial-gradient(circle, #ffcc44 0%, #e84c0c 55%, transparent 75%);
+  background: radial-gradient(circle, #ffffff 0%, #cfe0ff 55%, transparent 75%);
   animation: float-ember linear infinite;
   opacity: 0;
 }
 
 @keyframes float-ember {
-  0%   { transform: translateY(0)     translateX(0)                          scale(1);   opacity: 0; }
+  0%   { transform: translateY(0)    translateX(0)                          scale(1);   opacity: 0; }
   10%  { opacity: .9; }
-  50%  { transform: translateY(-40vh) translateX(var(--drift))               scale(0.8); opacity: 0.7; }
+  50%  { transform: translateY(50vh) translateX(var(--drift))               scale(0.9); opacity: 0.7; }
   90%  { opacity: 0.15; }
-  100% { transform: translateY(-92vh) translateX(calc(var(--drift) * 2))     scale(0.3); opacity: 0; }
+  100% { transform: translateY(102vh) translateX(calc(var(--drift) * 2))    scale(0.6); opacity: 0; }
 }
 
 /* ============================================================
@@ -219,7 +222,7 @@ section {
   border-color: var(--glass-border-h);
   background: var(--glass-bg-mid);
   transform: translateY(-4px);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 30px rgba(201,168,76,0.07);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 30px rgba(77,140,255,0.07);
 }
 
 /* ============================================================
@@ -234,16 +237,16 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: rgba(6,8,15,0.85);
+  background: rgba(5,14,36,0.85);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(201,168,76,0.12);
+  border-bottom: 1px solid rgba(77,140,255,0.12);
   transition: background 0.3s, border-color 0.3s;
 }
 
 nav.scrolled {
-  background: rgba(6,8,15,0.97);
-  border-bottom-color: rgba(201,168,76,0.22);
+  background: rgba(5,14,36,0.97);
+  border-bottom-color: rgba(77,140,255,0.22);
 }
 
 .nav-logo {
@@ -258,7 +261,7 @@ nav.scrolled {
   flex-shrink: 0;
 }
 .nav-logo .knight { font-size: 20px; }
-.nav-logo .logo-img { height: 36px; width: 36px; object-fit: cover; border-radius: 50%; border: 1px solid rgba(201,168,76,0.3); }
+.nav-logo .logo-img { height: 36px; width: 36px; object-fit: cover; border-radius: 50%; border: 1px solid rgba(77,140,255,0.3); }
 
 .nav-links {
   display: flex;
@@ -292,7 +295,7 @@ nav.scrolled {
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--ash);
-  border: 1px solid rgba(201,168,76,0.25);
+  border: 1px solid rgba(77,140,255,0.25);
   padding: 9px 22px;
   border-radius: var(--r-sm);
   transition: color 0.2s, border-color 0.2s, background 0.2s;
@@ -309,7 +312,7 @@ nav.scrolled {
   letter-spacing: 2px;
   text-transform: uppercase;
   font-weight: 700;
-  color: var(--void);
+  color: var(--on-accent);
   background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 45%, var(--gold-bright) 60%, var(--gold) 100%);
   background-size: 200% 100%;
   padding: 10px 26px;
@@ -317,7 +320,7 @@ nav.scrolled {
   border: none;
   cursor: pointer;
   transition: background-position 0.4s, box-shadow 0.3s, transform 0.2s;
-  box-shadow: 0 4px 20px rgba(201,168,76,0.35);
+  box-shadow: 0 4px 20px rgba(77,140,255,0.35);
   position: relative;
   overflow: hidden;
   display: inline-block;
@@ -331,7 +334,7 @@ nav.scrolled {
 }
 .btn-primary:hover {
   background-position: right center;
-  box-shadow: 0 6px 36px rgba(201,168,76,0.65), 0 0 60px rgba(201,168,76,0.15);
+  box-shadow: 0 6px 36px rgba(77,140,255,0.65), 0 0 60px rgba(77,140,255,0.15);
   transform: translateY(-2px);
 }
 .btn-primary:active { transform: translateY(0); }
@@ -363,7 +366,7 @@ nav.scrolled {
   position: fixed;
   inset: 0;
   z-index: 999;
-  background: rgba(6,8,15,0.98);
+  background: rgba(5,14,36,0.98);
   backdrop-filter: blur(30px);
   display: flex;
   flex-direction: column;
@@ -392,7 +395,7 @@ nav.scrolled {
 }
 .mobile-menu-rune {
   font-size: 28px;
-  color: rgba(201,168,76,0.15);
+  color: rgba(77,140,255,0.15);
   letter-spacing: 14px;
   margin-bottom: 12px;
 }
@@ -408,8 +411,8 @@ nav.scrolled {
   text-align: center;
   padding: 140px 24px 100px;
   background:
-    radial-gradient(ellipse 130% 80% at 50% 115%, rgba(139,26,26,0.28) 0%, transparent 55%),
-    radial-gradient(ellipse 80% 60% at 20% 25%, rgba(20,28,60,0.7) 0%, transparent 55%),
+    radial-gradient(ellipse 130% 80% at 50% 115%, rgba(14,56,160,0.28) 0%, transparent 55%),
+    radial-gradient(ellipse 80% 60% at 20% 25%, rgba(12,32,84,0.7) 0%, transparent 55%),
     linear-gradient(180deg, var(--void) 0%, var(--abyss) 50%, var(--void) 100%);
   position: relative;
   overflow: hidden;
@@ -426,7 +429,7 @@ nav.scrolled {
 .hero-vignette {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 25%, rgba(6,8,15,0.75) 100%);
+  background: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 25%, rgba(5,14,36,0.75) 100%);
 }
 
 .hero-content {
@@ -437,7 +440,7 @@ nav.scrolled {
 
 .hero-runes {
   font-size: 22px;
-  color: rgba(201,168,76,0.22);
+  color: rgba(77,140,255,0.22);
   letter-spacing: 14px;
   margin-bottom: 28px;
   animation: rune-pulse 5s ease-in-out infinite;
@@ -452,8 +455,8 @@ nav.scrolled {
   height: 120px;
   object-fit: cover;
   border-radius: 50%;
-  border: 2px solid rgba(201,168,76,0.4);
-  box-shadow: 0 0 40px rgba(201,168,76,0.25), 0 0 80px rgba(192,48,42,0.15);
+  border: 2px solid rgba(77,140,255,0.4);
+  box-shadow: 0 0 40px rgba(77,140,255,0.25), 0 0 80px rgba(30,86,214,0.15);
   margin: 0 auto 28px;
   display: block;
 }
@@ -512,7 +515,7 @@ nav.scrolled {
   gap: 22px;
   font-size: 42px;
   margin: 32px 0;
-  color: rgba(201,168,76,0.22);
+  color: rgba(77,140,255,0.22);
 }
 .hero-pieces span {
   display: inline-block;
@@ -562,7 +565,7 @@ nav.scrolled {
   letter-spacing: 3px;
   text-transform: uppercase;
   font-weight: 700;
-  color: var(--void);
+  color: var(--on-accent);
   background: linear-gradient(135deg, var(--gold-dark), var(--gold) 40%, var(--gold-bright) 60%, var(--gold));
   background-size: 200% 100%;
   padding: 18px 52px;
@@ -575,7 +578,7 @@ nav.scrolled {
   position: relative;
   overflow: hidden;
   transition: background-position 0.4s, box-shadow 0.3s, transform 0.2s;
-  box-shadow: 0 6px 36px rgba(201,168,76,0.45), 0 2px 0 rgba(0,0,0,0.5);
+  box-shadow: 0 6px 36px rgba(77,140,255,0.45), 0 2px 0 rgba(0,0,0,0.5);
 }
 .btn-primary-hero::before {
   content: '';
@@ -586,7 +589,7 @@ nav.scrolled {
 }
 .btn-primary-hero:hover {
   background-position: right center;
-  box-shadow: 0 10px 60px rgba(201,168,76,0.7), 0 0 80px rgba(201,168,76,0.18);
+  box-shadow: 0 10px 60px rgba(77,140,255,0.7), 0 0 80px rgba(77,140,255,0.18);
   transform: translateY(-3px);
 }
 
@@ -596,7 +599,7 @@ nav.scrolled {
   letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--ash);
-  border: 1px solid rgba(201,168,76,0.28);
+  border: 1px solid rgba(77,140,255,0.28);
   padding: 17px 40px;
   border-radius: var(--r-sm);
   background: transparent;
@@ -626,13 +629,13 @@ nav.scrolled {
   gap: 0;
   margin-top: 72px;
   padding-top: 40px;
-  border-top: 1px solid rgba(201,168,76,0.12);
+  border-top: 1px solid rgba(77,140,255,0.12);
 }
 .hero-stat {
   flex: 1;
   text-align: center;
   padding: 0 24px;
-  border-right: 1px solid rgba(201,168,76,0.1);
+  border-right: 1px solid rgba(77,140,255,0.1);
 }
 .hero-stat:last-child { border-right: none; }
 .hero-stat .num {
@@ -677,7 +680,7 @@ nav.scrolled {
 
 .learn-card .card-rune {
   font-size: 28px;
-  color: rgba(201,168,76,0.18);
+  color: rgba(77,140,255,0.18);
   display: block;
   margin-bottom: 10px;
   transition: color 0.3s, text-shadow 0.3s;
@@ -713,12 +716,12 @@ nav.scrolled {
   bottom: 14px;
   right: 18px;
   font-size: 18px;
-  color: rgba(201,168,76,0.08);
+  color: rgba(77,140,255,0.08);
   font-family: var(--font-head);
   transition: color 0.3s;
 }
 .learn-card:hover .card-corner {
-  color: rgba(201,168,76,0.2);
+  color: rgba(77,140,255,0.2);
 }
 
 /* gradient top bar on cards */
@@ -738,7 +741,7 @@ nav.scrolled {
    ============================================================ */
 #modules {
   background:
-    radial-gradient(ellipse 80% 60% at 50% 50%, rgba(20,25,51,0.7) 0%, transparent 65%),
+    radial-gradient(ellipse 80% 60% at 50% 50%, rgba(12,32,84,0.7) 0%, transparent 65%),
     var(--void);
 }
 #modules .section-header { margin-bottom: 72px; }
@@ -794,15 +797,15 @@ nav.scrolled {
   font-family: var(--font-head);
   font-size: 12px;
   font-weight: 700;
-  color: var(--void);
-  box-shadow: 0 0 24px rgba(201,168,76,0.55), 0 0 48px rgba(201,168,76,0.15);
+  color: var(--on-accent);
+  box-shadow: 0 0 24px rgba(77,140,255,0.55), 0 0 48px rgba(77,140,255,0.15);
   flex-shrink: 0;
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .tl-item:hover .tl-dot-inner {
   transform: scale(1.18);
-  box-shadow: 0 0 36px rgba(201,168,76,0.85), 0 0 72px rgba(201,168,76,0.25);
+  box-shadow: 0 0 36px rgba(77,140,255,0.85), 0 0 72px rgba(77,140,255,0.25);
 }
 
 .tl-content {
@@ -811,7 +814,7 @@ nav.scrolled {
 
 .tl-rune {
   font-size: 22px;
-  color: rgba(201,168,76,0.25);
+  color: rgba(77,140,255,0.25);
   display: block;
   margin-bottom: 6px;
 }
@@ -854,7 +857,7 @@ nav.scrolled {
   height: 100%;
   border-radius: var(--r-pill);
   background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-bright));
-  box-shadow: 0 0 10px rgba(201,168,76,0.5);
+  box-shadow: 0 0 10px rgba(77,140,255,0.5);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 1s cubic-bezier(0.4,0,0.2,1);
@@ -879,8 +882,8 @@ nav.scrolled {
    ============================================================ */
 #instructor {
   background: linear-gradient(135deg, var(--deep) 0%, var(--abyss) 55%, var(--void) 100%);
-  border-top: 1px solid rgba(201,168,76,0.08);
-  border-bottom: 1px solid rgba(201,168,76,0.08);
+  border-top: 1px solid rgba(77,140,255,0.08);
+  border-bottom: 1px solid rgba(77,140,255,0.08);
 }
 
 .instructor-grid {
@@ -902,13 +905,13 @@ nav.scrolled {
   border-radius: var(--r-md);
   position: relative;
   overflow: hidden;
-  box-shadow: 0 32px 80px rgba(0,0,0,0.55), 0 0 60px rgba(201,168,76,0.07);
+  box-shadow: 0 32px 80px rgba(0,0,0,0.55), 0 0 60px rgba(77,140,255,0.07);
 }
 
 .instructor-frame-inner {
   position: absolute;
   inset: 12px;
-  border: 1px solid rgba(201,168,76,0.15);
+  border: 1px solid rgba(77,140,255,0.15);
   border-radius: calc(var(--r-md) - 4px);
   pointer-events: none;
   z-index: 2;
@@ -928,7 +931,7 @@ nav.scrolled {
   align-items: center;
   justify-content: center;
   font-size: 140px;
-  color: rgba(201,168,76,0.07);
+  color: rgba(77,140,255,0.07);
   z-index: 1;
 }
 
@@ -984,16 +987,16 @@ nav.scrolled {
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--gold);
-  border: 1px solid rgba(201,168,76,0.28);
+  border: 1px solid rgba(77,140,255,0.28);
   padding: 7px 14px;
   border-radius: var(--r-sm);
-  background: rgba(201,168,76,0.05);
+  background: rgba(77,140,255,0.05);
   backdrop-filter: blur(8px);
   transition: background 0.2s, border-color 0.2s;
 }
 .badge:hover {
-  background: rgba(201,168,76,0.1);
-  border-color: rgba(201,168,76,0.5);
+  background: rgba(77,140,255,0.1);
+  border-color: rgba(77,140,255,0.5);
 }
 
 /* ============================================================
@@ -1024,14 +1027,14 @@ nav.scrolled {
   top: -18px; left: 18px;
   font-family: var(--font-head);
   font-size: 110px;
-  color: rgba(201,168,76,0.05);
+  color: rgba(77,140,255,0.05);
   line-height: 1;
   pointer-events: none;
 }
 
 .testi-runes {
   font-size: 16px;
-  color: rgba(201,168,76,0.18);
+  color: rgba(77,140,255,0.18);
   letter-spacing: 4px;
   margin-bottom: 18px;
 }
@@ -1056,13 +1059,13 @@ nav.scrolled {
   align-items: center;
   gap: 14px;
   padding-top: 18px;
-  border-top: 1px solid rgba(201,168,76,0.1);
+  border-top: 1px solid rgba(77,140,255,0.1);
 }
 
 .testi-avatar {
   width: 44px; height: 44px;
   background: linear-gradient(135deg, var(--steel), var(--iron));
-  border: 1px solid rgba(201,168,76,0.28);
+  border: 1px solid rgba(77,140,255,0.28);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -1090,7 +1093,7 @@ nav.scrolled {
    ============================================================ */
 #pricing {
   background:
-    radial-gradient(ellipse 80% 70% at 50% 50%, rgba(139,26,26,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 70% at 50% 50%, rgba(14,56,160,0.12) 0%, transparent 60%),
     var(--void);
 }
 #pricing .section-header { margin-bottom: 64px; }
@@ -1110,9 +1113,9 @@ nav.scrolled {
 }
 
 .pricing-card.featured {
-  border-color: rgba(201,168,76,0.4);
+  border-color: rgba(77,140,255,0.4);
   background: rgba(255,255,255,0.065);
-  box-shadow: 0 32px 80px rgba(0,0,0,0.5), 0 0 60px rgba(201,168,76,0.1);
+  box-shadow: 0 32px 80px rgba(0,0,0,0.5), 0 0 60px rgba(77,140,255,0.1);
   width: 100%;
 }
 
@@ -1126,7 +1129,7 @@ nav.scrolled {
   font-size: 9px;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: var(--void);
+  color: var(--on-accent);
   background: linear-gradient(135deg, var(--gold-dark), var(--gold));
   padding: 5px 14px;
   border-radius: var(--r-pill);
@@ -1180,7 +1183,7 @@ nav.scrolled {
 
 .pricing-divider {
   height: 1px;
-  background: rgba(201,168,76,0.1);
+  background: rgba(77,140,255,0.1);
   margin: 24px 0;
 }
 
@@ -1229,10 +1232,10 @@ nav.scrolled {
 }
 
 .pricing-cta.primary {
-  color: var(--void);
+  color: var(--on-accent);
   background: linear-gradient(135deg, var(--gold-dark), var(--gold) 40%, var(--gold-bright) 60%, var(--gold));
   background-size: 200% 100%;
-  box-shadow: 0 6px 32px rgba(201,168,76,0.45);
+  box-shadow: 0 6px 32px rgba(77,140,255,0.45);
   position: relative;
   overflow: hidden;
 }
@@ -1245,14 +1248,14 @@ nav.scrolled {
 }
 .pricing-cta.primary:hover {
   background-position: right center;
-  box-shadow: 0 10px 50px rgba(201,168,76,0.65);
+  box-shadow: 0 10px 50px rgba(77,140,255,0.65);
   transform: translateY(-2px);
 }
 
 .pricing-cta.ghost {
   color: var(--ash);
   background: transparent;
-  border: 1px solid rgba(201,168,76,0.22);
+  border: 1px solid rgba(77,140,255,0.22);
 }
 .pricing-cta.ghost:hover {
   color: var(--gold);
@@ -1279,7 +1282,7 @@ nav.scrolled {
   font-size: 9px;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: var(--void);
+  color: var(--on-accent);
   background: var(--crimson);
   padding: 4px 10px;
   border-radius: var(--r-pill);
@@ -1292,7 +1295,7 @@ footer {
   position: relative;
   z-index: 2;
   background: var(--void);
-  border-top: 1px solid rgba(201,168,76,0.12);
+  border-top: 1px solid rgba(77,140,255,0.12);
   padding: 64px 24px 40px;
   text-align: center;
 }
@@ -1313,7 +1316,7 @@ footer {
 }
 .footer-runes {
   font-size: 20px;
-  color: rgba(201,168,76,0.12);
+  color: rgba(77,140,255,0.12);
   letter-spacing: 10px;
   margin-bottom: 32px;
 }
@@ -1386,8 +1389,8 @@ footer {
   section { padding: 80px 20px; }
 
   .hero-stats { gap: 0; flex-wrap: wrap; }
-  .hero-stat { min-width: 50%; border-bottom: 1px solid rgba(201,168,76,0.08); margin-bottom: 8px; }
-  .hero-stat:nth-child(odd) { border-right: 1px solid rgba(201,168,76,0.1); }
+  .hero-stat { min-width: 50%; border-bottom: 1px solid rgba(77,140,255,0.08); margin-bottom: 8px; }
+  .hero-stat:nth-child(odd) { border-right: 1px solid rgba(77,140,255,0.1); }
 
   .timeline::before { left: 20px; transform: none; }
   .tl-item,
@@ -1418,6 +1421,113 @@ footer {
   .learn-grid { grid-template-columns: 1fr; }
   .testi-grid { grid-template-columns: 1fr; }
 }
+
+/* ============================================================
+   VIKING LOGO BADGES
+   ============================================================ */
+.nav-logo .logo-img,
+.hero-logo-img,
+.footer-logo-img {
+  background: #fff;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.nav-logo .logo-img {
+  height: 44px;
+  width: 44px;
+  border: 2px solid var(--gold);
+  box-shadow: 0 0 14px var(--rune-glow);
+}
+.nav-logo { color: var(--parchment); text-shadow: none; }
+
+.hero-logo-img {
+  width: 220px;
+  height: 220px;
+  border: 4px solid #fff;
+  box-shadow:
+    0 0 0 8px var(--gold-dark),
+    0 0 0 10px rgba(255,255,255,0.15),
+    0 0 70px rgba(47,107,255,0.55),
+    0 24px 60px rgba(0,0,0,0.5);
+  margin-bottom: 40px;
+  animation: logo-rise 1s cubic-bezier(0.2,0.8,0.2,1) both;
+}
+@keyframes logo-rise {
+  from { opacity: 0; transform: translateY(24px) scale(0.92); }
+  to   { opacity: 1; transform: none; }
+}
+
+.footer-logo-img {
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 18px;
+  border: 3px solid var(--gold-dark);
+  box-shadow: 0 0 30px var(--rune-glow);
+}
+.footer-logo { color: var(--parchment); }
+
+/* white headline with a royal-blue underline, like the helmet stripe */
+.hero-title .line-main {
+  background: linear-gradient(180deg, #ffffff 0%, #ffffff 55%, #b9cdff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+.section-title::after {
+  content: '';
+  display: block;
+  width: 64px;
+  height: 4px;
+  margin-top: 16px;
+  background: var(--gold);
+  border-radius: 2px;
+}
+.section-header .section-title::after { margin-left: auto; margin-right: auto; }
+
+/* ============================================================
+   SNOW SECTIONS — light sections in the logo's white & blue
+   ============================================================ */
+section.snow {
+  --parchment:     #0b1d45;
+  --bone:          #1d3366;
+  --ash:           #2c4372;
+  --fog:           #4a5f8f;
+  --mist:          #6b7fae;
+  --gold:          #0047c7;
+  --rune-glow:     rgba(0,71,199,0.18);
+  --glass-bg:      #ffffff;
+  --glass-bg-mid:  #ffffff;
+  --glass-border:  rgba(11,29,69,0.10);
+  --glass-border-h:rgba(0,71,199,0.45);
+  color: var(--ash);
+}
+#learn.snow,
+#testimonials.snow {
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(47,107,255,0.08) 0%, transparent 60%),
+    linear-gradient(180deg, #f4f7fd 0%, #e9eff9 100%);
+  color: var(--ash);
+}
+section.snow .glass {
+  box-shadow: 0 2px 0 rgba(11,29,69,0.04), 0 10px 30px rgba(11,29,69,0.06);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+section.snow .glass:hover {
+  box-shadow: 0 18px 50px rgba(11,29,69,0.14), 0 0 0 1px rgba(0,71,199,0.25);
+}
+section.snow .card-rune,
+section.snow .testi-runes,
+section.snow .learn-card .card-corner { color: rgba(0,71,199,0.22); }
+section.snow .testi-card::before { color: rgba(0,71,199,0.06); }
+section.snow .testi-avatar {
+  background: linear-gradient(135deg, var(--gold-dark), #0b1d45);
+  color: #fff;
+  border-color: transparent;
+}
+section.snow .testi-author { border-top-color: rgba(11,29,69,0.08); }
+section.snow .rune-divider::before,
+section.snow .rune-divider::after { box-shadow: none; }
+section.snow .learn-card::after { height: 3px; background: var(--gold-dark); }
 </style>
 </head>
 <body>
@@ -1529,7 +1639,7 @@ footer {
 <!-- ============================================================
      CURRICULUM / LEARN
      ============================================================ -->
-<section id="learn">
+<section id="learn" class="snow">
   <div class="container">
     <div class="section-header reveal">
       <span class="section-eyebrow">ᚢ &nbsp; The Six Paths &nbsp; ᚢ</span>
@@ -1768,7 +1878,7 @@ footer {
 <!-- ============================================================
      TESTIMONIALS
      ============================================================ -->
-<section id="testimonials">
+<section id="testimonials" class="snow">
   <div class="container">
     <div class="section-header reveal">
       <span class="section-eyebrow">ᛁ &nbsp; From the Hall of Warriors &nbsp; ᛁ</span>
@@ -1874,7 +1984,8 @@ footer {
      FOOTER
      ============================================================ -->
 <footer>
-  <span class="footer-logo">♞ ChessVikings</span>
+  <img src="chessviking-logo.jpg" alt="" class="footer-logo-img">
+  <span class="footer-logo">ChessVikings</span>
   <p class="footer-tagline"><em>Strike Fast. Think Faster. Conquer the Clock.</em></p>
   <div class="footer-runes" aria-hidden="true">ᚠ ᚢ ᚦ ᚨ ᚱ ᚲ ᚷ ᚹ ᚺ ᚾ ᛁ ᛃ ᛇ ᛈ ᛉ ᛊ ᛏ ᛒ ᛖ ᛗ ᛚ ᛜ ᛞ ᛟ</div>
   <ul class="footer-links">
